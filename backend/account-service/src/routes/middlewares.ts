@@ -1,6 +1,6 @@
 import Joi from "joi";
 import { Request, Response } from "express";
-import { accountSchema, loginSchema } from "../models/account";
+import { accountSchema, loginSchema } from "../models/accountSchemas";
 
 function validateSchema(schema: Joi.ObjectSchema<any>, req: Request, res: Response, next: any){
     const { error } = schema.validate(req.body);
