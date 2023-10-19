@@ -1,6 +1,6 @@
 import request from 'supertest'
 import app from '../src/app'
-import exp from 'constants';
+
 
 describe('Testando rotas de accounts', () => {
 
@@ -17,7 +17,7 @@ describe('Testando rotas de accounts', () => {
             id: 1,
             name: 'Wesley',
             email: 'wesley@gmail.com',
-            password: '123456789',
+            password: '1b23456789',
             status: 100
         }
 
@@ -42,6 +42,49 @@ describe('Testando rotas de accounts', () => {
             .send(payload)
         
         expect(resultado.statusCode).toEqual(422)
+    })    
+
+    it('PATCH /accounts/:id - Deve retornar statusCode 200', async () => {
+        const payload = {
+            name: 'Wesley Borges',
+            email: 'wesley@gmail.com',
+            password: '123456789',
+        }
+
+        const resultado = await request(app)
+            .patch('/accounts/1')
+            .send(payload)
+        
+        expect(resultado.statusCode).toEqual(200);
+        expect(resultado.body.id).toEqual(1);
+    })
+    
+    it('PATCH /accounts/:id - Deve retornar statusCode 400', async () => {
+        const payload = {
+            name: 'Wesley Borges',
+            email: 'wesley@wesley.com',
+            password: '1a23456789123',
+        }
+
+        const resultado = await request(app)
+            .patch('/accounts/abc')
+            .send(payload)
+        
+        expect(resultado.statusCode).toEqual(400)
+    })
+
+    it('PATCH /accounts/:id - Deve retornar statusCode 404', async () => {
+        const payload = {
+            name: 'Wesley Borges',
+            email: 'wesley@wesley.com',
+            password: '123454566789123',
+        }
+
+        const resultado = await request(app)
+            .patch('/accounts/-1')
+            .send(payload)
+        
+        expect(resultado.statusCode).toEqual(404)
     })
 
     it('GET /accounts/:id - Deve retornar statusCode 200', async ()=>{
@@ -64,5 +107,5 @@ describe('Testando rotas de accounts', () => {
         .get('/accounts/abc');
 
         expect(resultado.status).toEqual(400);
-    })
+    })    
 });
