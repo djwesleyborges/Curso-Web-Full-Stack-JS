@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { IAccount } from "../model/account";
+import { IAccount } from "../models/account";
 
 
 const accounts: IAccount[] = [];
