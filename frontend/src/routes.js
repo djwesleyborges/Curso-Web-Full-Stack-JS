@@ -7,6 +7,8 @@ import {
     useParams,
     useRouteMatch
 } from 'react-router-dom';
+import SignIn from "./pages/public/SingIn";
+import SignUp from "./pages/public/SingUp";
 
 
 function Home() {
@@ -50,22 +52,6 @@ function Contact() {
     return (
         <div>
             <h3>Contato: {contactId}</h3>
-        </div>
-    )
-}
-
-function Signin() {
-    return (
-        <div>
-            <h2>Login</h2>
-        </div>
-    )
-}
-
-function Signup() {
-    return (
-        <div>
-            <h2>Cadastro</h2>
         </div>
     )
 }
@@ -135,11 +121,11 @@ export default function Routes() {
                     </Route>
 
                     <Route exact path="/signin">
-                        <Signin />
+                        <SignIn />
                     </Route>
 
                     <Route exact path="/signup">
-                        <Signup />
+                        <SignUp />
                     </Route>
                 </Switch>
             </div>
