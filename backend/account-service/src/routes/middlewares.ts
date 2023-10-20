@@ -1,8 +1,8 @@
 import Joi from "joi";
 import { Request, Response } from "express";
-import { accountSchema, loginSchema } from "../models/accountSchemas";
+import { accountSchema, loginSchema, updateAccountSchema } from "../models/accountSchemas";
 
-function validateSchema(schema: Joi.ObjectSchema<any>, req: Request, res: Response, next: any){
+function validateSchema(schema: Joi.ObjectSchema<any>, req: Request, res: Response, next: any) {
     const { error } = schema.validate(req.body);
     if (error == null) return next();
 
@@ -21,4 +21,8 @@ function validateLogin(req: Request, res: Response, next: any) {
     return validateSchema(loginSchema, req, res, next)
 }
 
-export { validateAccount, validateLogin }
+function validateUpdateAccount(req: Request, res: Response, next: any) {
+    return validateSchema(updateAccountSchema, req, res, next)
+}
+
+export { validateAccount, validateLogin, validateUpdateAccount }
