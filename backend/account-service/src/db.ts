@@ -8,7 +8,8 @@ const dbHost = process.env.DB_HOST;
 
 const sequelize = new Sequelize(dbName, dbUser, dbPassword, {
     dialect: 'mysql',
-    host: dbHost
+    host: dbHost,
+    logging: false
 })
 
 export default sequelize;

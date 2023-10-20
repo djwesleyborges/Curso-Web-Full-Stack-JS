@@ -1,6 +1,6 @@
 import { Request, Response, response } from "express";
 import { IAccount } from "../models/account";
-import repository from '../models/accountModel'
+import repository from '../models/accountRepository'
 import auth from "../auth";
 
 const accounts: IAccount[] = [];
@@ -55,10 +55,17 @@ async function updateAccount(req: Request, res: Response, next: any) {
         if (!accountId) throw new Error('ID is invalid format.');
 
         const accountParams = req.body as IAccount;
-        accountParams.password = auth.hashPassword(accountParams.password);
+
+        if (accountParams.password)
+            accountParams.password = auth.hashPassword(accountParams.password);
+
         const updatedAccount = await repository.updateAccount(accountId, accountParams);
-        updatedAccount.password = '';        
-        res.status(200).json(updatedAccount);
+        if(updatedAccount !== null) {
+            updatedAccount.password = '';
+            res.status(200).json(updatedAccount);
+        }else{
+            res.status(404).end();
+        }
     }
     catch (error) {
         console.log(error);
@@ -70,14 +77,14 @@ async function loginAccount(req: Request, res: Response, next: any) {
     try {
         const loginParams = req.body as IAccount
         const account = await repository.findByEmail(loginParams.email);
-        if (account !== null){
+        if (account !== null) {
             const isValid = auth.comparePassword(loginParams.password, account.password);
-            if(isValid){
+            if (isValid) {
                 const token = await auth.sign(account.id!);
                 return res.json({ auth: true, token });
             }
         }
-        else{
+        else {
             return res.status(401).end();
         }
 
@@ -93,8 +100,8 @@ async function loginAccount(req: Request, res: Response, next: any) {
 
 }
 
-function logoutAccount(req: Request, res: Response, next: any){
-    res.json({auth: false, token: null});
+function logoutAccount(req: Request, res: Response, next: any) {
+    res.json({ auth: false, token: null });
 }
 
 export default { getAccounts, getAccount, addAccount, updateAccount, loginAccount, logoutAccount }
