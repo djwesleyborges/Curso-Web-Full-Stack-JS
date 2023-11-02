@@ -104,7 +104,7 @@ export default function Routes() {
                         <Link to="/messages">Mensagens</Link>
                     </li>
                     <li>
-                        <Link to="/signup">Sair</Link>
+                        <Link to="/signup">Signup</Link>
                     </li>
                 </ul>
                 <Switch>
