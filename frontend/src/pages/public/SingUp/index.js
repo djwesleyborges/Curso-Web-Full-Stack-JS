@@ -25,7 +25,7 @@ class SignUp extends React.Component {
             this.setState({ error: "Informe todos os campos para cadastrar." })
         }else{
             try{
-                await axios.post('accounts', {
+                await api.post('accounts', {
                     name, email, password, domain
                 });
                 this.props.hisstory.push("/signin") // depois de tudo ok, redireciona
@@ -93,7 +93,7 @@ class SignUp extends React.Component {
                                 onChange={e => this.setState({ password: e.target.value })}
                             />
                         </Form.Group>
-                        <Button block variant="primary" type="submit">Realizar cadastro</Button>
+                        <Button className="mt-2" variant="primary" type="submit">Realizar cadastro</Button>
                     </Form>
                 </BoxForm>
                 <BoxContent>

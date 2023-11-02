@@ -24,7 +24,7 @@ class SignIn extends React.Component {
             this.setState({ error: "Informe todos os campos para acessar." })
         }else{
             try{
-                const response = await axios.post('accounts/login', { email, password });
+                const response = await api.post('accounts/login', { email, password });
                 login(response.data.token);
                 this.props.hisstory.push("/") // depois de tudo ok, redireciona
             }catch(error){
@@ -65,7 +65,7 @@ class SignIn extends React.Component {
                                     />
 
                                 </Form.Group>
-                                <Button block variant="secondary" type="submit">Fazer Login</Button>
+                                <Button className="mt-2" variant="secondary" type="submit">Fazer Login</Button>
 
                             </Form>
                         </BoxForm>

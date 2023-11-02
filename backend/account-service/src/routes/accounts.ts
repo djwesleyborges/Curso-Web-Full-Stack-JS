@@ -3,7 +3,6 @@ import accountsController from "../controllers/accounts";
 import { validateAccountSchema, validateLoginSchema, validateUpdateAccountSchema, validateAuth } from "./middlewares";
 
 
-
 const router = Router();
 
 router.get('/accounts/', validateAuth, accountsController.getAccounts);
@@ -17,5 +16,6 @@ router.post('/accounts/', validateAccountSchema, accountsController.addAccount);
 router.post('/accounts/login', validateLoginSchema, accountsController.loginAccount)
 
 router.post('/accounts/logout', accountsController.logoutAccount)
+
 
 export default router;
