@@ -1,5 +1,9 @@
 node_modules
 dist
 coverage
+<<<<<<< HEAD
 .env
 keys/*
+=======
+.env
+>>>>>>> 34124b036803ebad884fa32a45029ea7148b33f4

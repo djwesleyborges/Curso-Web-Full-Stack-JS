@@ -2,7 +2,6 @@ import { Router } from "express";
 import accountsController from "../controllers/accounts";
 import { validateAccountSchema, validateLoginSchema, validateUpdateAccountSchema, validateAuth, validateAuthorization } from "./middlewares";
 
-
 const router = Router();
 
 router.get('/accounts/', validateAuth, accountsController.getAccounts);
@@ -18,6 +17,7 @@ router.post('/accounts/login', validateLoginSchema, accountsController.loginAcco
 router.post('/accounts/logout', validateAuth, accountsController.logoutAccount)
 
 router.delete('/accounts/:id', validateAuth, validateAuthorization, accountsController.deleteAccount)
+
 
 
 export default router;

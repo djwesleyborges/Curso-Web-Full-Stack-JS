@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+<<<<<<< HEAD
     "target": "ES6",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -22,4 +23,24 @@
   "exclude": [
     "__tests__"
   ]
+=======
+    "target": "es6",
+    "module": "commonjs",
+     "outDir": "./dist/",
+    "strict": true,
+     "moduleResolution": "node",
+     "baseUrl": ".",
+     "paths": {
+       "ms-commons/*": ["../__commons__/src/*"]
+     },
+     "rootDirs": ["./src/", "../__commons__/src"], 
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  },
+  "exclude": ["__tests__"],
+  "ts-node": {
+    "transpileOnly": true
+  }
+>>>>>>> 34124b036803ebad884fa32a45029ea7148b33f4
 }
