@@ -1,7 +1,10 @@
 import { Request, Response, response } from "express";
 import { IAccount } from "../models/account";
-import repository from '../models/accountRepository'
+import repository from '../models/accountRepository';
 import auth from "../auth";
+import controllerCommons from 'ms-commons/api/controllers/controller';
+import { Token } from "ms-commons/api/auth";
+
 
 const accounts: IAccount[] = [];
 
@@ -16,7 +19,10 @@ async function getAccounts(req: Request, res: Response, next: any) {
 async function getAccount(req: Request, res: Response, next: any) {
     try {
         const id = parseInt(req.params.id);
-        if (!id) throw new Error("ID is invalid format")
+        if (!id) return res.status(400).end();
+
+        const token = controllerCommons.getToken(res) as Token;
+        if(id !== token.accountId) return res.status(403).end();
 
         const account = await repository.findById(id);
         if (account === null) {
@@ -52,7 +58,10 @@ async function addAccount(req: Request, res: Response, next: any) {
 async function updateAccount(req: Request, res: Response, next: any) {
     try {
         const accountId = parseInt(req.params.id);
-        if (!accountId) throw new Error('ID is invalid format.');
+        if (!accountId) return res.status(400).end();
+
+        const token = controllerCommons.getToken(res) as Token;
+        if(accountId !== token.accountId) return res.status(403).end();
 
         const accountParams = req.body as IAccount;
 
@@ -104,4 +113,22 @@ function logoutAccount(req: Request, res: Response, next: any) {
     res.json({ auth: false, token: null });
 }
 
-export default { getAccounts, getAccount, addAccount, updateAccount, loginAccount, logoutAccount }
+async function deleteAccount(req: Request, res: Response, next: any){
+    try{
+
+        const accountId = parseInt(req.params.id);
+        if(!accountId) return res.status(400).end();
+
+        const token = controllerCommons.getToken(res) as Token;
+        if(accountId !== token.accountId) return res.status(403).end();
+
+        await repository.remove(accountId);
+        res.status(200).end();
+    }
+    catch(error){
+        console.log(`deleteAccount: ${error}`);
+        res.status(400).end();
+    }
+}
+
+export default { getAccounts, getAccount, addAccount, updateAccount, loginAccount, logoutAccount, deleteAccount }

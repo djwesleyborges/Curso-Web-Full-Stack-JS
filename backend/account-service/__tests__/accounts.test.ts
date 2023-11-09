@@ -7,8 +7,8 @@ import auth from '../src/auth';
 const testEmail = 'jest@accounts.test.com';
 const testEmail2 = 'jest2@accounts.test.com'
 const hashPassword = '$2a$10$ye/d5KSzdLt0TIOpevAtde2mgreLPUpLpnE0vyQJ0iMBVeZyklKSi';
-let jwt : string = '';
-let testId : number = 0;
+let jwt: string = '';
+let testId: number = 0;
 
 beforeAll(async () => {
     const testAccount: IAccount = {
@@ -29,17 +29,17 @@ afterAll(async () => {
 
 describe('Testando rotas de accounts', () => {
 
-    it('GET /accounts/ - Deve retornar statusCode 200', async ()=>{
+    it('GET /accounts/ - Deve retornar statusCode 200', async () => {
         const resultado = await request(app)
-        .get('/accounts/')
-        .set('x-access-token', jwt);
+            .get('/accounts/')
+            .set('x-access-token', jwt);
 
         expect(resultado.status).toEqual(200);
         expect(Array.isArray(resultado.body)).toBeTruthy();
     })
 
     it('POST /accounts/ - Deve retornar statusCode 201', async () => {
-        const payload : IAccount = {
+        const payload: IAccount = {
             name: 'Jest2',
             email: testEmail2,
             password: '123456',
@@ -49,7 +49,7 @@ describe('Testando rotas de accounts', () => {
         const resultado = await request(app)
             .post('/accounts/')
             .send(payload)
-        
+
         expect(resultado.statusCode).toEqual(201);
         expect(resultado.body.id).toBeTruthy();
     })
@@ -64,9 +64,9 @@ describe('Testando rotas de accounts', () => {
         const resultado = await request(app)
             .post('/accounts/')
             .send(payload)
-        
+
         expect(resultado.statusCode).toEqual(422)
-    })    
+    })
 
     it('PATCH /accounts/:id - Deve retornar statusCode 200', async () => {
         const payload = {
@@ -77,7 +77,7 @@ describe('Testando rotas de accounts', () => {
             .patch('/accounts/' + testId)
             .send(payload)
             .set('x-access-token', jwt)
-        
+
         expect(resultado.statusCode).toEqual(200);
         expect(resultado.body.id).toEqual(testId);
         expect(resultado.body.name).toEqual(payload.name);
@@ -92,7 +92,7 @@ describe('Testando rotas de accounts', () => {
             .patch('/accounts/abc')
             .send(payload)
             .set('x-access-token', jwt)
-        
+
         expect(resultado.statusCode).toEqual(400)
     })
 
@@ -105,33 +105,33 @@ describe('Testando rotas de accounts', () => {
             .patch('/accounts/-1')
             .send(payload)
             .set('x-access-token', jwt)
-        
+
         expect(resultado.statusCode).toEqual(404)
     })
 
-    it('GET /accounts/:id - Deve retornar statusCode 200', async ()=>{
+    it('GET /accounts/:id - Deve retornar statusCode 200', async () => {
         const resultado = await request(app)
-        .get('/accounts/'+testId)
-        .set('x-access-token', jwt)
+            .get('/accounts/' + testId)
+            .set('x-access-token', jwt)
 
         expect(resultado.status).toEqual(200);
         expect(resultado.body.id).toBe(testId);
     })
 
-    it('GET /accounts/:id - Deve retornar statusCode 404', async ()=>{
+    it('GET /accounts/:id - Deve retornar statusCode 404', async () => {
         const resultado = await request(app)
-        .get('/accounts/-1')
-        .set('x-access-token', jwt)
+            .get('/accounts/-1')
+            .set('x-access-token', jwt)
 
         expect(resultado.status).toEqual(404);
     })
 
-    it('GET /accounts/:id - Deve retornar statusCode 400', async ()=>{
+    it('GET /accounts/:id - Deve retornar statusCode 400', async () => {
         const resultado = await request(app)
-        .get('/accounts/abc')
-        .set('x-access-token', jwt)
+            .get('/accounts/abc')
+            .set('x-access-token', jwt)
 
         expect(resultado.status).toEqual(400);
-    })  
+    })
 
 });
